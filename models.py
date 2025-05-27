@@ -1,5 +1,16 @@
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import Column,Integer,Text,ForeignKey
+from sqlalchemy.orm import DeclarativeBase,sessionmaker
+from sqlalchemy import Column, Integer, Text, ForeignKey,create_engine
+
+engine = create_engine("sqlite:///project.db",echo=True)
+
+Session=sessionmaker(bind=engine)
+
+def get_db():
+    session=Session()
+    try:
+        yield session
+    finally:
+        session.close()
 
 
 class Base(DeclarativeBase):
@@ -15,12 +26,14 @@ class Product(Base):
     stock = Column(Integer, default=0)
     supplier_id = Column(Integer, ForeignKey("suppliers.id"))
 
+
 class Supplier(Base):
     __tablename__ = "suppliers"
 
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
     contact_info = Column(Text)
+
 
 class Order(Base):
     __tablename__ = "orders"
@@ -29,10 +42,3 @@ class Order(Base):
     product_id = Column(Integer, ForeignKey("products.id"))
     quantity = Column(Integer, nullable=False)
     customer_name = Column(Text, nullable=False)
-
-
-
-
-
-
-
