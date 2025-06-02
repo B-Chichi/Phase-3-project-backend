@@ -1,12 +1,13 @@
-from sqlalchemy.orm import DeclarativeBase,sessionmaker
-from sqlalchemy import Column, Integer, Text, ForeignKey,create_engine
+from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy import Column, Integer, Text, ForeignKey, create_engine
 
-engine = create_engine("sqlite:///project.db",echo=True)
+engine = create_engine("sqlite:///project.db", echo=True)
 
-Session=sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine)
+
 
 def get_db():
-    session=Session()
+    session = Session()
     try:
         yield session
     finally:
@@ -24,7 +25,7 @@ class Product(Base):
     name = Column(Text, nullable=False)
     price = Column(Integer, nullable=False)
     stock = Column(Integer, default=0)
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"))
+    category = Column(Text)
 
 
 class Supplier(Base):
