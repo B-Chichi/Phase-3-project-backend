@@ -1,4 +1,5 @@
-from sqlalchemy.orm import DeclarativeBase, sessionmaker
+from sqlalchemy.orm import  sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Text, ForeignKey, create_engine
 
 engine = create_engine("sqlite:///project.db", echo=True)
@@ -14,8 +15,8 @@ def get_db():
         session.close()
 
 
-class Base(DeclarativeBase):
-    pass
+Base=declarative_base()
+    
 
 
 class Product(Base):
